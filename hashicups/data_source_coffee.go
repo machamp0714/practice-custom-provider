@@ -16,38 +16,46 @@ func dataSourceCoffees() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceCoffeesRead,
 		Schema: map[string]*schema.Schema{
-			"id": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"teaser": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"price": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"image": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ingredients": {
+			"coffees": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{ // TypeList,TypeSet,TypeMapの時定義する必要がある
+				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ingredient_id": {
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"teaser": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"price": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"image": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ingredients": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"ingredient_id": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -59,6 +67,7 @@ func dataSourceCoffees() *schema.Resource {
 func dataSourceCoffeesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := &http.Client{Timeout: 10 * time.Second}
 
+	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/coffees", "http://localhost:19090"), nil)
@@ -82,6 +91,7 @@ func dataSourceCoffeesRead(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
+	// always run
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 
 	return diags
