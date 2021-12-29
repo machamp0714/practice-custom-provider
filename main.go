@@ -1,10 +1,10 @@
 package main
 
 import (
+	"terraform-provider-hashicups/hashicups"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
-
-	"terraform-provider-hashicups/hashicups"
 )
 
 func main() {
