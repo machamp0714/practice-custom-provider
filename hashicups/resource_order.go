@@ -94,7 +94,7 @@ func resourceOrderCreate(ctx context.Context, d *schema.ResourceData, m interfac
 
 	d.SetId(strconv.Itoa(o.ID))
 
-	resourceOrderCreate(ctx, d, m)
+	resourceOrderRead(ctx, d, m)
 
 	return diags
 }
