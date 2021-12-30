@@ -162,9 +162,19 @@ func resourceOrderUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 }
 
 func resourceOrderDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	var diag diag.Diagnostics
+	c := m.(*hc.Client)
 
-	return diag
+	var diags diag.Diagnostics
+
+	orderId := d.Id()
+
+	if err := c.DeleteOrder(orderId); err != nil {
+		return diag.FromErr(err)
+	}
+
+	d.SetId("")
+
+	return diags
 }
 
 func flattenOrderItems(orderItems *[]hc.OrderItem) []interface{} {
