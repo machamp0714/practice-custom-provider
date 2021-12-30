@@ -27,5 +27,5 @@ data "hashicups_order" "order" {
 }
 
 output "order" {
-  value = data.hashicups_order.order.order
+  value = data.hashicups_order.order
 }
