@@ -16,6 +16,11 @@ func resouceOrder() *schema.Resource {
 		UpdateContext: resourceOrderUpdate,
 		DeleteContext: resourceOrderDelete,
 		Schema: map[string]*schema.Schema{
+			"last_updated": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"items": {
 				Type:     schema.TypeList,
 				Required: true,
